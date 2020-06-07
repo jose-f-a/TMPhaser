@@ -36,10 +36,10 @@ function preload ()
 {
     this.load.image('sky', 'assets/fundo.png');
     // this.load.image('star', 'assets/star.png');
-    this.load.image('pipeb', 'assets/pipeb.png');
-    this.load.image('pipet', 'assets/pipet.png');
+    this.load.image('pipeb', 'assets/baixo.png');
+    this.load.image('pipet', 'assets/cima.png');
     this.load.spritesheet('birdy', 
-        'assets/jogador.png',
+        'assets/vi.png',
         { frameWidth: 64, frameHeight: 64 }
     );
 
@@ -49,8 +49,8 @@ function preload ()
     this.load.audio('score', './assets/sounds/score.wav');
 }
 var platforms,spacebar,player,scoreText;
-var gap = 150;
-var xGap = 250;
+var gap = 220;  //gap onde o player tem de passar
+var xGap = 550; //gap entre obstaculos
 var music;
 function create ()
 {
@@ -60,16 +60,17 @@ function create ()
     this.cameras.main.setBackgroundColor(randColor)
 
 
-//    this.add.image(400, 300, 'star');
+
     // this.physics.world.setBoundsCollision(true, true, true, false);
 
     //Add score text
     scoreText = this.add.text(birdyX, (gameHeight/4),score,{ fontFamily: '"04b19"', fontSize: 60, color: '#fff' });
     
     platforms = this.physics.add.staticGroup();
-    var pipePos = gameWidth+2*xGap
+    var pipePos = gameWidth+1.2*xGap
+    // Cria as platforms de forma random, em tempos de altura
     let pos = getRandom();
-    // bottom placable at 260+gap to height
+
     platforms.create(pipePos, pos[0], 'pipeb').setScale(1).refreshBody();
     platforms.create(pipePos, pos[1], 'pipet').setScale(1).refreshBody();
 
@@ -87,25 +88,22 @@ function create ()
 
     player.body.setGravityY(300)
 
-
-
+    //Sempre que "toca" nas plataformas executa o playerHit
     this.physics.add.collider(player, platforms, playerHit, null, game)
 
-
-    //  Stop the following keys from propagating up to the browser
-    // this.input.keyboard.addKeyCapture([Phaser.Input.Keyboard.KeyCodes.SPACE ]);
-
-    //
-
-    // this.scene.pause("default");
-    // isPaused = true;
-    // pause(this)
-
-
     spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    // spacebar.onDown.add(flapNow, this);
+
     this.input.keyboard.on('keydown-' + 'SPACE', flapNow);
     this.input.on('pointerdown', flapNow); //touch support
+
+
+    //Para colocar em pausa;
+
+    this.input.keyboard.on('keydown-ESC', pause);
+
+    //Para voltar;
+
+
 
 }
 
@@ -121,18 +119,43 @@ function getRandom() {
 }
 
 var countpipe = 0;
+
 function update ()
 {
-    // if(spacebar.isDown) {
-        // console.log("pressed space")
-    // }
-    //platforms.setAll('body.velocity.x', -100);
+
+
+    //Vamos aumentar a dificuldade ao longo do jogo
+    if(score==10){
+        gap = 200;  //gap onde o player tem de passar
+        xGap = 520;
+    }
+
+    if(score==20){
+        gap = 185;  //gap onde o player tem de passar
+        xGap = 480;
+    }
+
+    if(score==25){
+        gap = 170;  //gap onde o player tem de passar
+        xGap = 420;
+    }
+
+    if(score==30){
+        gap = 155;  //gap onde o player tem de passar
+        xGap = 345;
+    }
+
+
+
     let children = platforms.getChildren();
+    //Vai percorrer as plataformas, para ir criado mais
     children.forEach((child) => {
         if (child instanceof Phaser.GameObjects.Sprite) {
             child.refreshBody();
             child.x += -3;
+
             //when one set of pipe is just shown
+
             if(child.x <= gameWidth && !child.drawn) {
                 countpipe+=1;
                 child.drawn=true;
@@ -141,83 +164,90 @@ function update ()
                     let pos = getRandom();
                     console.log("created one")
                     platforms.create(gameWidth+xGap, pos[0], 'pipeb').setScale(1).refreshBody();
-
                     platforms.create(gameWidth+xGap, pos[1], 'pipet').setScale(1).refreshBody();
                     countpipe=0;
-                }
 
-                // child.x = game.canvas.width+pipeWidth;
-                // child.y = getRandom()[0];
+                }
             }
+
+            //Se o pipe estiver fora do ecra vai remover
+
             if(child.x <= -50) {
                 console.log("Destroyed one "+countpipe)
                 child.destroy();
             }
 
-            //check if pipe passed bird (birdyX)
-            // if(child.texture.key=="pipeb"){
-            //     console.log("x: ",child.x)
-            // }
-            if(child.x< birdyX && !gameOver && child.texture.key=="pipeb" && !child.scored){ //only check one pipe
+           //Verifica se o player passou pelo obstaculo
+
+            if(child.x< birdyX && !gameOver && child.texture.key=="pipeb" && !child.scored){
                 child.scored = true
                 score+=1;
                 scoreText.setText(score)
                 game.sound.play("score");
+
                 console.log("score:",score);
             }
         }
     });
-    //set lower Bounds
-    // console.log("y= ",player.y)
-    if(player.y > Number(game.canvas.height)+200) {
-        console.log("y= ",player.y)
+
+    if(gameOver){
+        player.y = 450
+        player.x = 850
+        scoreText.x = 850
         endGame();
     }
-    //set upper Bounds
-    if(player.y < -200) {
-        console.log("y= ",player.y)
-        endGame();
-    }
+
+
+
 }
 
 function flapNow(){
     if(gameOver) return;
-
-    if(isPaused) resume();
-    // console.log("flap")
+    //if(isPaused) resume();
     player.setVelocityY(-330);
     game.sound.play("flap");
 }
+//hit flag serve para depois de dar hit a primeira vez nao dar mais nenhuma
 var hitflag = false;
+
+//Vai ser corrido sempre que colidir
 function playerHit() {
     if(hitflag) return
     console.log("Player hit!!!!!!!!!")
-    var hitSound = game.sound.play("hit");
+   game.sound.play("hit");
     hitflag=true;
+    //executa o playerDead com delay
     setTimeout(playerDead, 200)
 }
+
+//vai ser executado depois de colidir,atravez do playerhit
 
 function playerDead() {
     console.log("Player dead!!!!!!!!!")
     game.sound.play("die");
     player.setCollideWorldBounds(false);
+    //Coloca o gameOver true, para depois ser executado o endGame
     gameOver =  true;
 }
 
+//Quando o player morre
 
 function endGame() {
     gameOver= true;
-    pause();
-    console.log("game paused")
-    player.y =450
+    obj.scene.reset("default");
+
+    //Aqui falta por pa abrir uma nova scene para dar restar ou assim
 }
+
 function pause(obj = game) {
-    console.log("pause")
+    console.log("pause");
     isPaused = true;
     obj.scene.pause("default");
 }
+
 function resume(obj = game) {
     console.log("resume")
     isPaused = false;
     obj.scene.resume("default");
 }
+
