@@ -15,7 +15,7 @@ var configGame = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 550 },
+            gravity: { y: 500 },
             debug: false
         }
     },
@@ -27,9 +27,10 @@ var configGame = {
 };
 
 
-const pipeWidth = 52;
-var game = new Phaser.Game(configGame);
 
+var game = new Phaser.Game(configGame);
+var speed = 3;//
+var fall =300;
 var isPaused = false,
     gameOver = false;
 var score = 0;
@@ -91,7 +92,7 @@ function create ()
         repeat: 0
     });
 
-    player.body.setGravityY(300)
+    player.body.setGravityY(fall)
 
     //Sempre que "toca" nas plataformas executa o playerHit
     this.physics.add.collider(player, platforms, playerHit, null, game)
@@ -110,14 +111,16 @@ function create ()
 
 
 }
+var lastPipe ; //Vai servir para saber a ultima possição da gap
+var primeiro = true;
 
 function getRandom() {
     let safePadding = 25;
     let min = Math.ceil(safePadding+gap/2);
     let max = Math.floor(game.canvas.height-safePadding-gap/2);
     let ran =  Math.floor(Math.random() * (max - min + 1)) + min;
-    let rantop = ran-((gap/2)+260);
-    let ranbot = ran+((gap/2)+260);
+    let rantop = ran-((gap/2)+260); //Tubo de cima
+    let ranbot = ran+((gap/2)+260); //Tubo de baixo
 
     return [ranbot, rantop]
 }
@@ -156,9 +159,9 @@ function update ()
     children.forEach((child) => {
         if (child instanceof Phaser.GameObjects.Sprite) {
             child.refreshBody();
-            child.x += -3;
+            child.x -= speed;  //Coloca o pip em -x e da a ideia de movimento do jogo
 
-            //when one set of pipe is just shown
+
 
             if(child.x <= gameWidth && !child.drawn) {
                 countpipe+=1;
@@ -170,7 +173,7 @@ function update ()
                     platforms.create(gameWidth+xGap, pos[0], 'pipeb').setScale(1).refreshBody();
                     platforms.create(gameWidth+xGap, pos[1], 'pipet').setScale(1).refreshBody();
                     countpipe=0;
-
+                    lastPipe = pos;
                 }
             }
 
@@ -181,7 +184,7 @@ function update ()
                 child.destroy();
             }
 
-           //Verifica se o player passou pelo obstaculo
+            //Verifica se o player passou pelo obstaculo
             if(child.x< birdyX && !gameOver && child.texture.key=="pipeb" && !child.scored){
                 child.scored = true
                 score+=1;
@@ -213,7 +216,7 @@ var hitflag = false;
 //Vai ser corrido sempre que colidir
 function playerHit() {
     if(hitflag) return
-   game.sound.play("hit");
+    game.sound.play("hit");
     hitflag=true;
     //executa o playerDead com delay
     setTimeout(playerDead, 200)
