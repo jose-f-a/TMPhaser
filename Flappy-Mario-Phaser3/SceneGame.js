@@ -2,7 +2,6 @@
 class SceneGame extends Phaser.Scene{
 
     //Variaveis
-
     isPaused = false;
     gameOver = false;
     score = 0;
@@ -30,9 +29,7 @@ class SceneGame extends Phaser.Scene{
 
     };
 
-    preload ()
-    {
-
+    preload () {
         this.load.image('sky', 'assets/fundo.png');
         this.load.image('pipeb', 'assets/pipeb.png');
         this.load.image('pipet', 'assets/pipet.png');
@@ -47,8 +44,7 @@ class SceneGame extends Phaser.Scene{
         this.load.audio('score', './assets/sounds/score.wav');
     }
 
-    create()
-    {
+    create() {
         // this.add.image(400, 300, 'sky');
         var colors = ["0x1fbde0","0x0a4957","0x08272e"];
         var randColor = colors[Math.floor(Math.random() * colors.length)];
@@ -89,8 +85,7 @@ class SceneGame extends Phaser.Scene{
 
         this.input.on('pointerdown', this.flapNow); //touch support
     }
-    update()
-    {
+    update() {
 
         //Vamos aumentar a dificuldade ao longo do jogo
         if(this.score==10){
@@ -176,12 +171,14 @@ class SceneGame extends Phaser.Scene{
 
         return [ranbot, rantop]
     }
+
     flapNow(){
         if(this.gameOver) return;
         if(isPaused) resume();
         this.player.setVelocityY(-330);
         gameMain.sound.play("flap");
     }
+
     playerHit() {
         if(this.hitflag) return;
         gameMain.sound.play("hit");
@@ -191,7 +188,7 @@ class SceneGame extends Phaser.Scene{
 
     }
 
-//Depois de dar hit, nao me executa esta função
+    //Depois de dar hit, nao me executa esta função
     playerDead() {
         gameMain.sound.play("die");
         this.player.setCollideWorldBounds(false);

@@ -1,5 +1,5 @@
-var gameWidth = window.innerWidth;
-var gameHeight = window.innerHeight;
+var gameWidth = 1500;
+var gameHeight = 720;
 
 var configGame = {
     type: Phaser.AUTO,
@@ -29,10 +29,9 @@ var configGame = {
 
 
 var game = new Phaser.Game(configGame);
-var speed = 3;//
-var fall =300;
-var isPaused = false,
-    gameOver = false;
+var speed = 10; //
+var fall = 300;
+var isPaused = false, gameOver = false;
 var score = 0;
 var birdyX = (gameWidth/2)-50;
 var birdyY = (gameHeight/2)-50;
@@ -40,7 +39,6 @@ var birdyY = (gameHeight/2)-50;
 function preload ()
 {
     this.load.image('sky', 'assets/fundo.png');
-    // this.load.image('star', 'assets/star.png');
     this.load.image('pipeb', 'assets/pipeb.png');
     this.load.image('pipet', 'assets/pipet.png');
     this.load.spritesheet('birdy',
@@ -58,12 +56,9 @@ var gap = 220;  //gap onde o player tem de passar
 var xGap = 550; //gap entre obstaculos
 var music;
 
-function create ()
-{
-    // this.add.image(400, 300, 'sky');
-    var colors = ["0x1fbde0","0x0a4957","0x08272e"];
-    var randColor = colors[Math.floor(Math.random() * colors.length)];
-    this.cameras.main.setBackgroundColor(randColor)
+function create () {
+    this.add.image(800, 450, 'sky');
+    
 
 
 
@@ -126,8 +121,7 @@ function getRandom() {
 
 var countpipe = 0;
 
-function update ()
-{
+function update (){
 
 
     //Vamos aumentar a dificuldade ao longo do jogo
@@ -158,7 +152,7 @@ function update ()
     children.forEach((child) => {
         if (child instanceof Phaser.GameObjects.Sprite) {
             child.refreshBody();
-            child.x -= speed;  //Coloca o pip em -x e da a ideia de movimento do jogo
+            child.x -= speed;  //Coloca o pipe em -x e da a ideia de movimento do jogo
 
 
 
