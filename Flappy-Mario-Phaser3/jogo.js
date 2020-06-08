@@ -95,8 +95,7 @@ function create ()
     player.body.setGravityY(fall)
 
     //Sempre que "toca" nas plataformas executa o playerHit
-    this.physics.add.collider(player, platforms, playerHit, null, game)
-
+    this.physics.add.collider(player, platforms, playerHit, null, game);
     spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     this.input.keyboard.on('keydown-' + 'SPACE', flapNow);

@@ -31,12 +31,12 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
       <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\assets" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -55,6 +55,7 @@
       <workItem from="1591547650635" duration="1733000" />
       <workItem from="1591551447494" duration="4369000" />
       <workItem from="1591557701678" duration="12156000" />
+      <workItem from="1591598388651" duration="3915000" />
     </task>
     <servers />
   </component>
@@ -70,10 +71,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1591557875222" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1591557702229">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1591598451485">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1591557702229" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1591598451485" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1591553076388">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

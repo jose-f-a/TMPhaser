@@ -6,8 +6,8 @@ class SceneGame extends Phaser.Scene{
     isPaused = false;
     gameOver = false;
     score = 0;
-    birdyX = (gameWidth/2)-50;
-    birdyY = (gameHeight/2)-50;
+    birdyX = (gameMainWidth/2)-50;
+    birdyY = (gameMainHeight/2)-50;
 
     platforms;
     spacebar;
@@ -23,7 +23,7 @@ class SceneGame extends Phaser.Scene{
     hitflag = false;
 
     constructor() {
-        super('jogo');
+        super({key:'jogo'});
     }
 
     init(){
@@ -49,17 +49,16 @@ class SceneGame extends Phaser.Scene{
 
     create()
     {
-
         // this.add.image(400, 300, 'sky');
         var colors = ["0x1fbde0","0x0a4957","0x08272e"];
         var randColor = colors[Math.floor(Math.random() * colors.length)];
-        this.cameras.main.setBackgroundColor(randColor)
+        this.cameras.main.setBackgroundColor(randColor);
 
         //Add score text
-        this.scoreText = this.add.text(this.birdyX, (gameHeight/4),this.score,{ fontFamily: '"04b19"', fontSize: 60, color: '#fff' });
+        this.scoreText = this.add.text(this.birdyX, (gameMainHeight/4),this.score,{ fontFamily: '"04b19"', fontSize: 60, color: '#fff' });
 
         this.platforms = this.physics.add.staticGroup();
-        var pipePos = gameWidth+1.2*this.xGap
+        var pipePos = gameMainWidth+1.2*this.xGap;
         // Cria as platforms de forma random, em tempos de altura
         let pos = this.getRandom();
 
@@ -71,47 +70,27 @@ class SceneGame extends Phaser.Scene{
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
 
-        game.anims.create({
+        gameMain.anims.create({
             key: 'flap',
-            frames: game.anims.generateFrameNumbers('birdy', { start: 0, end: 3 }),
+            frames: gameMain.anims.generateFrameNumbers('birdy', { start: 0, end: 3 }),
             frameRate: 20,
             repeat: 0
         });
 
-        this.player.body.setGravityY(300)
+        this.player.body.setGravityY(300);
 
         //Sempre que "toca" nas plataformas executa o playerHit
 
-
-        this.physics.add.collider(this.player, this.platforms, this.playerHit, null, game)
+        this.physics.add.collider(this.player, this.platforms, this.playerHit, null, gameMain);
 
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         this.input.keyboard.on('keydown-' + 'SPACE', this.flapNow);
+
         this.input.on('pointerdown', this.flapNow); //touch support
-
-
-        //Para colocar em pausa;
-
-
-        //Para voltar;
-        game.sound.play("die");
-
-
     }
-    getRandom() {
-        let safePadding = 25;
-        let min = Math.ceil(safePadding+this.gap/2);
-        let max = Math.floor(game.canvas.height-safePadding-this.gap/2);
-        let ran =  Math.floor(Math.random() * (max - min + 1)) + min;
-        let rantop = ran-((this.gap/2)+260);
-        let ranbot = ran+((this.gap/2)+260);
-        return [ranbot, rantop]
-    }
-
     update()
     {
-
 
         //Vamos aumentar a dificuldade ao longo do jogo
         if(this.score==10){
@@ -136,8 +115,9 @@ class SceneGame extends Phaser.Scene{
 
 
 
-        let children = platforms.getChildren();
+        let children = this.platforms.getChildren();
         //Vai percorrer as plataformas, para ir criado mais
+
         children.forEach((child) => {
             if (child instanceof Phaser.GameObjects.Sprite) {
                 child.refreshBody();
@@ -145,15 +125,15 @@ class SceneGame extends Phaser.Scene{
 
                 //when one set of pipe is just shown
 
-                if(child.x <= gameWidth && !child.drawn) {
+                if(child.x <= gameMainWidth && !child.drawn) {
                     this.countpipe+=1;
                     child.drawn=true;
 
                     if(this.countpipe>=2) {
                         let pos = this.getRandom();
 
-                        this.platforms.create(gameWidth+this.xGap, pos[0], 'pipeb').setScale(1).refreshBody();
-                        this.platforms.create(gameWidth+this.xGap, pos[1], 'pipet').setScale(1).refreshBody();
+                        this.platforms.create(gameMainWidth+this.xGap, pos[0], 'pipeb').setScale(1).refreshBody();
+                        this.platforms.create(gameMainWidth+this.xGap, pos[1], 'pipet').setScale(1).refreshBody();
                         this.countpipe=0;
 
                     }
@@ -167,10 +147,10 @@ class SceneGame extends Phaser.Scene{
 
                 //Verifica se o player passou pelo obstaculo
                 if(child.x< this.birdyX && !this.gameOver && child.texture.key=="pipeb" && !child.scored){
-                    child.scored = true
+                    child.scored = true;
                     this.score+=1;
-                    this.scoreText.setText(this.score)
-                    game.sound.play("score");
+                    this.scoreText.setText(this.score);
+                    gameMain.sound.play("score");
 
                 }
             }
@@ -181,39 +161,43 @@ class SceneGame extends Phaser.Scene{
             this.player.x = 850;
             this.scoreText.x = 850;
 
-            this.endGame();
+            //this.endGame();
         }
     }
 
+    getRandom() {
+
+        let safePadding = 25;
+        let min = Math.ceil(safePadding+this.gap/2);
+        let max = Math.floor(gameMain.canvas.height-safePadding-this.gap/2);
+        let ran =  Math.floor(Math.random() * (max - min + 1)) + min;
+        let rantop = ran-((this.gap/2)+260); //Tubo de cima
+        let ranbot = ran+((this.gap/2)+260); //Tubo de baixo
+
+        return [ranbot, rantop]
+    }
     flapNow(){
         if(this.gameOver) return;
-        //if(isPaused) resume();
+        if(isPaused) resume();
         this.player.setVelocityY(-330);
-        game.sound.play("flap");
+        gameMain.sound.play("flap");
     }
     playerHit() {
-        if(this.hitflag) return
-        game.sound.play("hit");
+        if(this.hitflag) return;
+        gameMain.sound.play("hit");
         this.hitflag=true;
         //executa o playerDead com delay
-        setTimeout(this.playerDead, 200)
+        this.setTimeout(this.playerDead, 200);
+
     }
 
+//Depois de dar hit, nao me executa esta função
     playerDead() {
-        game.sound.play("die");
+        gameMain.sound.play("die");
         this.player.setCollideWorldBounds(false);
         //Coloca o gameOver true, para depois ser executado o endGame
         this.gameOver =  true;
     }
-
-    endGame() {
-        //Aqui falta por pa abrir uma nova scene para dar restar
-        //So que nao estou a conseguir
-        //Ele antes parava porque dava erro
-    }
-
-
-
 
 
 

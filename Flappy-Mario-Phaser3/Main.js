@@ -1,11 +1,11 @@
 
-var gameWidth = window.innerWidth;
-var gameHeight = window.innerHeight;
+var  gameMainWidth = window.innerWidth;
+var  gameMainHeight = window.innerHeight;
 
 var config = {
     type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: gameMainWidth,
+    height: gameMainHeight,
     backgroundColor: 0x000000,
     scale: {
         mode: Phaser.Scale.FIT,
@@ -25,7 +25,8 @@ var config = {
 };
 
 
-var game = new Phaser.Game(config);
+var gameMain = new Phaser.Game(config);
+gameMain.scene.stop('start');
 
 
 
