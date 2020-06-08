@@ -26,7 +26,15 @@ var config = {
 
 
 var gameMain = new Phaser.Game(config);
-gameMain.scene.stop('start');
+scene.load('jogo',"SceneGame.js");
+gameMain.scene.add('jogo',SceneGame, true);
+gameMain.scene.launch('jogo');
+gameMain.scene.start('jogo');
+gameMain.scene.run('jogo');
+
+
+
+
 
 
 
