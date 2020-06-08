@@ -17,7 +17,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 55 },
+            gravity: { y: 500 },
             debug: false
         }
     },
@@ -26,11 +26,7 @@ var config = {
 
 
 var gameMain = new Phaser.Game(config);
-scene.load('jogo',"SceneGame.js");
-gameMain.scene.add('jogo',SceneGame, true);
-gameMain.scene.launch('jogo');
-gameMain.scene.start('jogo');
-gameMain.scene.run('jogo');
+
 
 
 

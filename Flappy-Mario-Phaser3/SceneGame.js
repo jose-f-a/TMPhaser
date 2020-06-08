@@ -1,34 +1,30 @@
-
 class SceneGame extends Phaser.Scene{
 
-    //Variaveis
-    isPaused = false;
-    gameOver = false;
-    score = 0;
-    birdyX = (gameMainWidth/2)-50;
-    birdyY = (gameMainHeight/2)-50;
-
-    platforms;
-    spacebar;
-    player;
-    scoreText;
-    gap = 220;  //gap onde o player tem de passar
-    xGap = 550; //gap entre obstaculos
-    music;
-
-    countpipe = 0;
-
-    //hit flag serve para depois de dar hit a primeira vez nao dar mais nenhuma
-    hitflag = false;
+/*
+PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
+ */
 
     constructor() {
         super({key:'jogo'});
+        //Variaveis
+        this.score = 0;
+        this.birdyX = (gameMainWidth/2)-50;
+        this.birdyY = (gameMainHeight/2)-50;
+        this.gameOver=false;
+        this.platforms;
+        this.spacebar;
+        this.player;
+        this.scoreText;
+        this.gap = 220;  //gap onde o player tem de passar
+        this.xGap = 550; //gap entre obstaculos
+        this.music;
+
+        this.countpipe = 0;
+
+        //hit flag serve para depois de dar hit a primeira vez nao dar mais nenhuma
+        this.hitflag = false;
+
     }
-
-    init(){
-
-    };
-
     preload () {
         this.load.image('sky', 'assets/fundo.png');
         this.load.image('pipeb', 'assets/pipeb.png');
@@ -81,28 +77,29 @@ class SceneGame extends Phaser.Scene{
 
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        this.input.keyboard.on('keydown-' + 'SPACE', this.flapNow);
+        this.input.keyboard.on('keydown-' + 'SPACE', this.flapNow,this);
 
-        this.input.on('pointerdown', this.flapNow); //touch support
+        this.input.on('pointerdown', this.flapNow,this); //touch support
     }
     update() {
+
+        if(this.gameOver){
+            return;
+        }
 
         //Vamos aumentar a dificuldade ao longo do jogo
         if(this.score==10){
             this.gap = 200;  //gap onde o player tem de passar
             this.xGap = 520;
         }
-
         if(this.score==20){
             this.gap = 185;  //gap onde o player tem de passar
             this.xGap = 480;
         }
-
         if(this.score==25){
             this.gap = 170;  //gap onde o player tem de passar
             this.xGap = 420;
         }
-
         if(this.score==30){
             this.gap = 155;  //gap onde o player tem de passar
             this.xGap = 345;
@@ -168,32 +165,34 @@ class SceneGame extends Phaser.Scene{
         let ran =  Math.floor(Math.random() * (max - min + 1)) + min;
         let rantop = ran-((this.gap/2)+260); //Tubo de cima
         let ranbot = ran+((this.gap/2)+260); //Tubo de baixo
-
+       
         return [ranbot, rantop]
     }
 
     flapNow(){
         if(this.gameOver) return;
-        if(isPaused) resume();
         this.player.setVelocityY(-330);
-        gameMain.sound.play("flap");
+        this.sound.play("flap");
     }
 
-    playerHit() {
+    playerHit(){
+
         if(this.hitflag) return;
-        gameMain.sound.play("hit");
+        this.sound.play("hit");
+
         this.hitflag=true;
         //executa o playerDead com delay
-        this.setTimeout(this.playerDead, 200);
-
+        //Esta com problema a executar o playerDead();
+        //this.playerDead();
     }
 
     //Depois de dar hit, nao me executa esta função
     playerDead() {
-        gameMain.sound.play("die");
+        this.sound.play('die');
         this.player.setCollideWorldBounds(false);
+        this.gameOver=true;
         //Coloca o gameOver true, para depois ser executado o endGame
-        this.gameOver =  true;
+
     }
 
 
