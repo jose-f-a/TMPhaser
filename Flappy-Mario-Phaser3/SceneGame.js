@@ -1,3 +1,7 @@
+
+var gameOver=false;
+var hitflag=false;
+var score = 0;
 class SceneGame extends Phaser.Scene{
 
 /*
@@ -7,7 +11,7 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
     constructor() {
         super({key:'jogo'});
         //Variaveis
-        this.score = 0;
+
         this.birdyX = (gameMainWidth/2)-50;
         this.birdyY = (gameMainHeight/2)-50;
         this.gameOver=false;
@@ -41,13 +45,16 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
     }
 
     create() {
+        gameOver=false;
+        hitflag=false;
+        score = 0;
         // this.add.image(400, 300, 'sky');
         var colors = ["0x1fbde0","0x0a4957","0x08272e"];
         var randColor = colors[Math.floor(Math.random() * colors.length)];
         this.cameras.main.setBackgroundColor(randColor);
 
         //Add score text
-        this.scoreText = this.add.text(this.birdyX, (gameMainHeight/4),this.score,{ fontFamily: '"04b19"', fontSize: 60, color: '#fff' });
+        this.scoreText = this.add.text(this.birdyX, (gameMainHeight/4),score,{ fontFamily: '"04b19"', fontSize: 60, color: '#fff' });
 
         this.platforms = this.physics.add.staticGroup();
         var pipePos = gameMainWidth+1.2*this.xGap;
@@ -73,7 +80,7 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
 
         //Sempre que "toca" nas plataformas executa o playerHit
 
-        this.physics.add.collider(this.player, this.platforms, this.playerHit, null, gameMain);
+        this.physics.add.collider(this.player, this.platforms, this.playerHit,null, gameMain);
 
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -83,8 +90,26 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
     }
     update() {
 
-        if(this.gameOver){
+
+        if(gameOver){
+            this.player.y = 450;
+            this.player.x = 850;
+            this.scoreText.x = 850;
+            //Bloquear o saltar,
+            //Dar som
+            this.sound.play('die');
+            //Mudar de scene
+            // shake the camera
+
+            //this.cameras.main.shake(1000);
+
+            gameMain.scene.pause('jogo');
+            gameMain.scene.start('start');
+
+            //Mudar de scene
+
             return;
+            //this.endGame();
         }
 
         //Vamos aumentar a dificuldade ao longo do jogo
@@ -140,21 +165,15 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
                 //Verifica se o player passou pelo obstaculo
                 if(child.x< this.birdyX && !this.gameOver && child.texture.key=="pipeb" && !child.scored){
                     child.scored = true;
-                    this.score+=1;
-                    this.scoreText.setText(this.score);
+                    score+=1;
+                    this.scoreText.setText(score);
                     gameMain.sound.play("score");
 
                 }
             }
         });
 
-        if(this.gameOver){
-            this.player.y = 450;
-            this.player.x = 850;
-            this.scoreText.x = 850;
 
-            //this.endGame();
-        }
     }
 
     getRandom() {
@@ -165,37 +184,22 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
         let ran =  Math.floor(Math.random() * (max - min + 1)) + min;
         let rantop = ran-((this.gap/2)+260); //Tubo de cima
         let ranbot = ran+((this.gap/2)+260); //Tubo de baixo
-       
+
         return [ranbot, rantop]
     }
 
     flapNow(){
+
         if(this.gameOver) return;
         this.player.setVelocityY(-330);
         this.sound.play("flap");
     }
 
     playerHit(){
-
-        if(this.hitflag) return;
+        if(hitflag) return;
         this.sound.play("hit");
-
-        this.hitflag=true;
-        //executa o playerDead com delay
-        //Esta com problema a executar o playerDead();
-        //this.playerDead();
+        hitflag=true;
+        gameOver=true;
     }
-
-    //Depois de dar hit, nao me executa esta função
-    playerDead() {
-        this.sound.play('die');
-        this.player.setCollideWorldBounds(false);
-        this.gameOver=true;
-        //Coloca o gameOver true, para depois ser executado o endGame
-
-    }
-
-
-
 
 }

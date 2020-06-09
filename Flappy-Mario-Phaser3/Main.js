@@ -21,7 +21,7 @@ var config = {
             debug: false
         }
     },
-    scene: [SceneGame]
+    scene: [SceneStart,SceneGame]
 };
 
 
