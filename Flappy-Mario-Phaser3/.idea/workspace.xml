@@ -31,15 +31,15 @@
     <property name="last_opened_file_path" value="$USER_HOME$/OneDrive/Documentos/GitHub/TM-2020/Aula 16 - Exemplo - Phaser3" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\lib" />
+      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
+      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\src" />
+      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\assets" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
       <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\lib" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
-      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\src" />
-      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\lib" />
-      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\assets" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -65,6 +65,8 @@
       <workItem from="1591657215703" duration="9000" />
       <workItem from="1591686378432" duration="2569000" />
       <workItem from="1591693851482" duration="3030000" />
+      <workItem from="1591723006324" duration="2085000" />
+      <workItem from="1591870842420" duration="5878000" />
     </task>
     <servers />
   </component>
@@ -80,10 +82,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1591693980125" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1591693851118">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1591870864639">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1591693851118" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1591870864639" />
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591653397445">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -1,10 +1,10 @@
-class SceneGameOver extends Phaser.Scene {
+class SceneGameOver2 extends Phaser.Scene {
     constructor() {
-        super({key: 'end'});
+        super({key: 'end2'});
     }
 
     preload(){
-        
+
     }
 
     create(){
@@ -14,16 +14,16 @@ class SceneGameOver extends Phaser.Scene {
         const clickButton1 = this.add.text(100, 100, 'Voltar a tentar', { fill: '#0f0' })
             .setInteractive()
             .on('pointerdown', function () {
-                gameMain.scene.start('start');
-                gameMain.scene.stop('end');
+                gameMain.scene.start('start2');
+                gameMain.scene.stop('end2');
             } );
 
         const clickButton2 = this.add.text(100, 200, 'Mudar de nivel', { fill: '#0f0' })
             .setInteractive()
             .on('pointerdown', function () {
                 gameMain.scene.start('inicio');
-                gameMain.scene.stop('end');
-                gameMain.scene.stop('start');
+                gameMain.scene.stop('end2');
+                gameMain.scene.stop('start2');
 
             } );
     }

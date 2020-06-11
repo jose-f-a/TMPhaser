@@ -20,7 +20,7 @@ var config = {
             debug: false
         }
     },
-    scene: [SceneGame, SceneStart, SceneGameOver]
+    scene: [SceneInicial,SceneStart,SceneGame , SceneGameOver,SceneStart2,SceneGame2,SceneGameOver2]
 };
 
 

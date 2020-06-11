@@ -1,8 +1,8 @@
-class SceneStart extends Phaser.Scene {
+class SceneInicial extends Phaser.Scene {
 
 
     constructor() {
-        super({key: 'start'});
+        super({key: 'inicio'});
     }
 
     preload() {
@@ -25,19 +25,20 @@ class SceneStart extends Phaser.Scene {
         var colors = ["0x1fbde0","0x0a4957","0x08272e"];
         var randColor = colors[Math.floor(Math.random() * colors.length)];
         this.cameras.main.setBackgroundColor(randColor);
-        this.add.text(16, 16, 'Press too play', { fontSize: '32px', fill: '#000' });
-        // Botao para começar
-        //var btnPlay = game.add.button(game.world.centerX, 200, "buttons", this.clickMe, this, 0, 1, 0);
 
-        // Adiciona o texto de pontuaçao
-        this.scoreText = "0";
-        this.player = this.add.sprite(this.birdyX,this.birdyY, 'birdy');
-        this.player.x= 740;
-        this.player.y =350;
+        this.add.text(100, 100, 'Flappy Mario', { fill: '#0f0' })
+            .setInteractive()
+            .on('pointerdown', function () {
+                gameMain.scene.start('start');
+                gameMain.scene.stop('inicio');
+            } );
 
-        this.input.on('pointerdown', function () {
-            gameMain.scene.start('jogo');
-            gameMain.scene.pause('start');
-        },this); // Touch support
+        this.add.text(100, 200, 'Pedrgey "Flappy" Vieirimir', { fill: '#0f0' })
+            .setInteractive()
+            .on('pointerdown', function () {
+                gameMain.scene.start('start2');
+                gameMain.scene.stop('inicio');
+            } );
+
     }
 }

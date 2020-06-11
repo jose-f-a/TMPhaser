@@ -2,14 +2,12 @@ var gameOver=false;
 var hitflag=false;
 var score = 0;
 var dieFlag  ;
-class SceneGame extends Phaser.Scene{
-    /** 
-     *! PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER 
-     */
+class SceneGame2 extends Phaser.Scene{
+
 
     constructor() {
-        super({key:'jogo'});
-        
+        super({key:'jogo2'});
+
         //Variaveis
         this.birdyX = (gameMainWidth/2)-50;
         this.birdyY = (gameMainHeight/2)-50;
@@ -29,13 +27,14 @@ class SceneGame extends Phaser.Scene{
         this.hitflag = false;
 
     }
-    preload () {
+    preload() {
+        //game.load.spritesheet("comecar", "assets/play.png", 180, 180);
         this.load.image('sky', 'assets/fundo.png');
-        this.load.image('pipeb', 'assets/pipeb.png');
-        this.load.image('pipet', 'assets/pipet.png');
-        this.load.spritesheet('birdy',
-            'assets/jogador.png',
-            { frameWidth: 48, frameHeight: 48 }
+        this.load.image('baixo', 'assets/baixo.png');
+        this.load.image('cima', 'assets/cima.png');
+        this.load.spritesheet('vi',
+            'assets/vi.png',
+            {frameWidth: 48, frameHeight: 48}
         );
 
         this.load.audio('flap', './assets/sounds/jump.wav');
@@ -62,17 +61,17 @@ class SceneGame extends Phaser.Scene{
         // Cria as platforms de forma random, em tempos de altura
         let pos = this.getRandom();
 
-        this.platforms.create(pipePos, pos[0], 'pipeb').setScale(1).refreshBody();
-        this.platforms.create(pipePos, pos[1], 'pipet').setScale(1).refreshBody();
+        this.platforms.create(pipePos, pos[0], 'baixo').setScale(1).refreshBody();
+        this.platforms.create(pipePos, pos[1], 'cima').setScale(1).refreshBody();
 
-        this.player = this.physics.add.sprite(this.birdyX,this.birdyY, 'birdy');
+        this.player = this.physics.add.sprite(this.birdyX,this.birdyY, 'vi');
 
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
 
         gameMain.anims.create({
             key: 'flap',
-            frames: gameMain.anims.generateFrameNumbers('birdy', { start: 0, end: 3 }),
+            frames: gameMain.anims.generateFrameNumbers('vi', { start: 0, end: 3 }),
             frameRate: 20,
             repeat: 0
         });
@@ -104,8 +103,8 @@ class SceneGame extends Phaser.Scene{
             //this.cameras.main.shake(1000);
             if(dieFlag){
                 this.sound.play('die');
-                gameMain.scene.stop('jogo');
-                gameMain.scene.start('end');
+                gameMain.scene.stop('jogo2');
+                gameMain.scene.start('end2');
 
                 dieFlag=false;
             }
@@ -152,8 +151,8 @@ class SceneGame extends Phaser.Scene{
 
                     if(this.countpipe>=2) {
                         let pos = this.getRandom();
-                        this.platforms.create(gameMainWidth+this.xGap, pos[0], 'pipeb').setScale(1).refreshBody();
-                        this.platforms.create(gameMainWidth+this.xGap, pos[1], 'pipet').setScale(1).refreshBody();
+                        this.platforms.create(gameMainWidth+this.xGap, pos[0], 'baixo').setScale(1).refreshBody();
+                        this.platforms.create(gameMainWidth+this.xGap, pos[1], 'cima').setScale(1).refreshBody();
                         this.countpipe=0;
                     }
                 }
@@ -164,7 +163,7 @@ class SceneGame extends Phaser.Scene{
                 }
 
                 //Verifica se o player passou pelo obstaculo
-                if(child.x< this.birdyX && !this.gameOver && child.texture.key=="pipeb" && !child.scored){
+                if(child.x< this.birdyX && !this.gameOver && child.texture.key=="baixo" && !child.scored){
                     child.scored = true;
                     score+=1;
                     this.scoreText.setText(score);
