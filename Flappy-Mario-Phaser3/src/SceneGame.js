@@ -1,17 +1,16 @@
-
 var gameOver=false;
 var hitflag=false;
 var score = 0;
-class SceneGame extends Phaser.Scene{
 
-/*
-PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
- */
+class SceneGame extends Phaser.Scene{
+    /** 
+     *! PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER 
+     */
 
     constructor() {
         super({key:'jogo'});
+        
         //Variaveis
-
         this.birdyX = (gameMainWidth/2)-50;
         this.birdyY = (gameMainHeight/2)-50;
         this.gameOver=false;
@@ -35,7 +34,7 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
         this.load.image('pipet', 'assets/pipet.png');
         this.load.spritesheet('birdy',
             'assets/jogador.png',
-            { frameWidth: 64, frameHeight: 64 }
+            { frameWidth: 48, frameHeight: 48 }
         );
 
         this.load.audio('flap', './assets/sounds/jump.wav');
@@ -89,8 +88,6 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
         this.input.on('pointerdown', this.flapNow,this); //touch support
     }
     update() {
-
-
         if(gameOver){
             this.player.y = 450;
             this.player.x = 850;
@@ -131,10 +128,8 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
         }
 
 
-
         let children = this.platforms.getChildren();
         //Vai percorrer as plataformas, para ir criado mais
-
         children.forEach((child) => {
             if (child instanceof Phaser.GameObjects.Sprite) {
                 child.refreshBody();
@@ -148,16 +143,13 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
 
                     if(this.countpipe>=2) {
                         let pos = this.getRandom();
-
                         this.platforms.create(gameMainWidth+this.xGap, pos[0], 'pipeb').setScale(1).refreshBody();
                         this.platforms.create(gameMainWidth+this.xGap, pos[1], 'pipet').setScale(1).refreshBody();
                         this.countpipe=0;
-
                     }
                 }
 
                 //Se o pipe estiver fora do ecra vai remover
-
                 if(child.x <= -50) {
                     child.destroy();
                 }
@@ -168,16 +160,12 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
                     score+=1;
                     this.scoreText.setText(score);
                     gameMain.sound.play("score");
-
                 }
             }
         });
-
-
     }
 
     getRandom() {
-
         let safePadding = 25;
         let min = Math.ceil(safePadding+this.gap/2);
         let max = Math.floor(gameMain.canvas.height-safePadding-this.gap/2);
@@ -189,7 +177,6 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
     }
 
     flapNow(){
-
         if(this.gameOver) return;
         this.player.setVelocityY(-330);
         this.sound.play("flap");
@@ -201,5 +188,4 @@ PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
         hitflag=true;
         gameOver=true;
     }
-
 }

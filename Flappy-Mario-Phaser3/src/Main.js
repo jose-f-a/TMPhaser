@@ -1,4 +1,3 @@
-
 var  gameMainWidth = window.innerWidth;
 var  gameMainHeight = window.innerHeight;
 
@@ -21,17 +20,8 @@ var config = {
             debug: false
         }
     },
-    scene: [SceneStart,SceneGame]
+    scene: [SceneGame, SceneStart, SceneGameOver]
 };
 
 
 var gameMain = new Phaser.Game(config);
-
-
-
-
-
-
-
-
-

@@ -1,21 +1,20 @@
 class SceneStart extends Phaser.Scene {
-
-    /*
-    PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
+    /** 
+     *! PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER 
      */
 
     constructor() {
         super({key: 'start'});
-
     }
 
     preload() {
+        //game.load.spritesheet("comecar", "assets/play.png", 180, 180);
         this.load.image('sky', 'assets/fundo.png');
         this.load.image('pipeb', 'assets/pipeb.png');
         this.load.image('pipet', 'assets/pipet.png');
         this.load.spritesheet('birdy',
             'assets/jogador.png',
-            {frameWidth: 64, frameHeight: 64}
+            {frameWidth: 48, frameHeight: 48}
         );
 
         this.load.audio('flap', './assets/sounds/jump.wav');
@@ -29,7 +28,10 @@ class SceneStart extends Phaser.Scene {
         var randColor = colors[Math.floor(Math.random() * colors.length)];
         this.cameras.main.setBackgroundColor(randColor);
 
-        //Add score text
+        // Botao para começar
+        //var btnPlay = game.add.button(game.world.centerX, 200, "buttons", this.clickMe, this, 0, 1, 0);
+
+        // Adiciona o texto de pontuaçao
         this.scoreText = "0";
         this.player = this.add.sprite(this.birdyX,this.birdyY, 'birdy');
         this.player.y = 450;
@@ -37,9 +39,6 @@ class SceneStart extends Phaser.Scene {
         this.input.on('pointerdown', function () {
             gameMain.scene.pause('start');
             gameMain.scene.start('jogo');
-        },this); //touch support
-
+        },this); // Touch support
     }
-
-
 }
