@@ -4,7 +4,8 @@ class SceneInicial extends Phaser.Scene {
   }
 
   preload() {
-    //game.load.spritesheet("comecar", "assets/play.png", 180, 180);
+    this.load.image("startMario", "assets/flappyMario.png");
+    this.load.image("startPedgrey", "assets/pedgreyVieimir.png");
     this.load.image("sky", "assets/fundo.png");
     this.load.image("pipeb", "assets/pipeb.png");
     this.load.image("pipet", "assets/pipet.png");
@@ -24,6 +25,30 @@ class SceneInicial extends Phaser.Scene {
     var randColor = colors[Math.floor(Math.random() * colors.length)];
     this.cameras.main.setBackgroundColor(randColor);
 
+    /** 
+     * ! Não funciona...
+    var btnStart = new FlatButton({
+      scene: this,
+      key: "comecar",
+      text: "start",
+      event: "start_game",
+    });
+
+    emitter.on("start_game", this.startGame, this);
+    */
+
+    //  Só aparece o segundo
+    this.startMario = this.add
+      .sprite(window.innerWidth / 2, window.innerHeight / 4, "startMario")
+      .setInteractive();
+    this.startMario.on("pointerdown", SceneGame); // Não sei bem o que meter neste segundo parametro. Nome da classe ou a key do constructor
+
+    this.startPedgrey = this.add
+      .sprite(window.innerWidth / 2, window.innerHeight / 2, "startPedgrey")
+      .setInteractive();
+    this.startPedgrey.on("pointerdown", SceneGame2); // Não sei bem o que meter neste segundo parametro. Nome da classe ou a key do constructor
+
+    /*  Texto comentado
     this.add
       .text(100, 100, "Flappy Mario", { fill: "#0f0" })
       .setInteractive()
@@ -33,11 +58,19 @@ class SceneInicial extends Phaser.Scene {
       });
 
     this.add
-      .text(100, 200, 'Pedrgey "Flappy" Vieirimir', { fill: "#0f0" })
+      .text(100, 200, 'Pedgrey "Flappy" Vieimir', { fill: "#0f0" })
       .setInteractive()
       .on("pointerdown", function () {
         gameMain.scene.start("start2");
         gameMain.scene.stop("inicio");
       });
+      */
   }
+
+  /**
+   * ! Não funciona
+  startGame() {
+    this.scene.start("SceneStart");
+  }
+   */
 }
