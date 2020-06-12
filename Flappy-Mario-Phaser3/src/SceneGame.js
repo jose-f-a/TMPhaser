@@ -34,7 +34,7 @@ class SceneGame extends Phaser.Scene {
     this.load.image("sky", "assets/fundo.png");
     this.load.image("pipeb", "assets/pipeb.png");
     this.load.image("pipet", "assets/pipet.png");
-    this.load.image("nuvem", "assets/vi.png");
+    this.load.image("nuvem", "assets/nuvem.png");
     this.load.spritesheet("birdy", "assets/jogador.png", {
       frameWidth: 48,
       frameHeight: 48,
@@ -56,10 +56,7 @@ class SceneGame extends Phaser.Scene {
     score = 0;
     this.speed=4;
     this.fall = 300;
-    // this.add.image(400, 300, 'sky');
-    var colors = ["0x0a4957", "0x08272e"];
-    var randColor = colors[Math.floor(Math.random() * colors.length)];
-    this.cameras.main.setBackgroundColor(randColor);
+    this.add.image(100,100, 'sky');
 
     //Add score text
     this.scoreText = this.add.text(this.birdyX, gameMainHeight / 4, score, {

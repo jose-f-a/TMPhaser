@@ -48,18 +48,19 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/OneDrive/Documentos/GitHub/TM-2020/Aula 16 - Exemplo - Phaser3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\assets" />
+      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
+      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\lib" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\lib" />
       <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
       <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\src" />
       <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\assets" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3" />
-      <recent name="D:\Ambiente\2-Semestre\Tecn. Multimedia\TP2\TMPhaser\Flappy-Mario-Phaser3\lib" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -89,6 +90,7 @@
       <workItem from="1591870842420" duration="5878000" />
       <workItem from="1591885496529" duration="101000" />
       <workItem from="1591957150017" duration="6623000" />
+      <workItem from="1591969985201" duration="2156000" />
     </task>
     <servers />
   </component>
@@ -104,10 +106,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1591693980125" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1591957150205">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1591969984615">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1591957150205" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1591969984615" />
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591653397445">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
