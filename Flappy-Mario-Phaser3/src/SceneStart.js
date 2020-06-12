@@ -4,7 +4,6 @@ class SceneStart extends Phaser.Scene {
   }
 
   preload() {
-    //game.load.spritesheet("comecar", "assets/play.png", 180, 180);
     this.load.image("sky", "assets/fundo.png");
     this.load.image("pipeb", "assets/pipeb.png");
     this.load.image("pipet", "assets/pipet.png");
@@ -20,12 +19,20 @@ class SceneStart extends Phaser.Scene {
   }
 
   create() {
-    var colors = ["0x0a4957", "0x08272e"];
+    var colors = ["0x0a4957"];
     var randColor = colors[Math.floor(Math.random() * colors.length)];
     this.cameras.main.setBackgroundColor(randColor);
-    this.add.text(16, 16, "Press too play", { fontSize: "32px", fill: "#000" });
-    // Botao para começar
-    //var btnPlay = game.add.button(game.world.centerX, 200, "buttons", this.clickMe, this, 0, 1, 0);
+
+    this.add.text(
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      "PRESS TO PLAY",
+      {
+        fontFamily: '"04b19',
+        fontSize: "32px",
+        color: "#fff",
+      }
+    );
 
     // Adiciona o texto de pontuaçao
     this.scoreText = "0";
