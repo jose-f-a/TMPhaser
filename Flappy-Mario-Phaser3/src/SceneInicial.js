@@ -38,15 +38,20 @@ class SceneInicial extends Phaser.Scene {
     */
 
     //  Só aparece o segundo
-    this.startMario = this.add
+   this.add
       .sprite(window.innerWidth / 2, window.innerHeight / 4, "startMario")
-      .setInteractive();
-    this.startMario.on("pointerdown", SceneGame); // Não sei bem o que meter neste segundo parametro. Nome da classe ou a key do constructor
+      .setInteractive()
+        .on("pointerdown", function () {
+          gameMain.scene.start("start");
+          gameMain.scene.stop("inicio");
+        });
 
-    this.startPedgrey = this.add
-      .sprite(window.innerWidth / 2, window.innerHeight / 2, "startPedgrey")
-      .setInteractive();
-    this.startPedgrey.on("pointerdown", SceneGame2); // Não sei bem o que meter neste segundo parametro. Nome da classe ou a key do constructor
+    this.add.sprite(window.innerWidth / 2, window.innerHeight / 2, "startPedgrey")
+      .setInteractive()
+        .on("pointerdown", function () {
+      gameMain.scene.start("start2");
+      gameMain.scene.stop("inicio");
+    });
 
     /*  Texto comentado
     this.add

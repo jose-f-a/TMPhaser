@@ -15,15 +15,17 @@ class SceneGame extends Phaser.Scene {
     this.birdyY = gameMainHeight / 2 - 50;
     this.gameOver = false;
     this.platforms;
+    this.nuvens;
     this.spacebar;
     this.player;
     this.scoreText;
     this.gap = 220; //gap onde o player tem de passar
     this.xGap = 550; //gap entre obstaculos
     this.music;
-    this.speed = 6;
+    this.speed = 4;
     this.fall = 300;
     this.countpipe = 0;
+    this.countNuv=0;
 
     //hit flag serve para depois de dar hit a primeira vez nao dar mais nenhuma
     this.hitflag = false;
@@ -32,6 +34,7 @@ class SceneGame extends Phaser.Scene {
     this.load.image("sky", "assets/fundo.png");
     this.load.image("pipeb", "assets/pipeb.png");
     this.load.image("pipet", "assets/pipet.png");
+    this.load.image("nuvem", "assets/vi.png");
     this.load.spritesheet("birdy", "assets/jogador.png", {
       frameWidth: 48,
       frameHeight: 48,
@@ -43,6 +46,7 @@ class SceneGame extends Phaser.Scene {
     this.load.audio("hit", "./assets/sounds/sfx_hit.ogg");
     this.load.audio("die", "./assets/sounds/die.wav");
     this.load.audio("score", "./assets/sounds/score.wav");
+
   }
 
   create() {
@@ -50,6 +54,8 @@ class SceneGame extends Phaser.Scene {
     gameOver = false;
     hitflag = false;
     score = 0;
+    this.speed=4;
+    this.fall = 300;
     // this.add.image(400, 300, 'sky');
     var colors = ["0x0a4957", "0x08272e"];
     var randColor = colors[Math.floor(Math.random() * colors.length)];
@@ -63,12 +69,17 @@ class SceneGame extends Phaser.Scene {
     });
 
     this.platforms = this.physics.add.staticGroup();
+    this.nuvens = this.physics.add.staticGroup();
+
     var pipePos = gameMainWidth + 1.2 * this.xGap;
     // Cria as platforms de forma random, em tempos de altura
     let pos = this.getRandom();
 
     this.platforms.create(pipePos, pos[0], "pipeb").setScale(1).refreshBody();
     this.platforms.create(pipePos, pos[1], "pipet").setScale(1).refreshBody();
+    this.nuvens.create(gameMainWidth+400,50,'nuvem').setScale(1).refreshBody();
+    this.nuvens.create(gameMainWidth, 85, "nuvem").setScale(1).refreshBody();
+    this.nuvens.create(gameMainWidth+265, 150, "nuvem").setScale(1).refreshBody();
 
     this.player = this.physics.add.sprite(this.birdyX, this.birdyY, "birdy");
 
@@ -105,8 +116,14 @@ class SceneGame extends Phaser.Scene {
     this.input.keyboard.on("keydown-" + "S", this.flapNowBoostDown, this);
     this.input.keyboard.on("keydown-" + "SPACE", this.flapNowMouse, this);
     this.input.on("pointerdown", this.flapNowMouse, this); //touch support
+    this.scoreText.setVisible(false);
+
   }
   update() {
+
+    if(score>0){
+      this.scoreText.setVisible(true);
+    }
     if (gameOver) {
       this.player.y = 450;
       this.player.x = 850;
@@ -121,7 +138,7 @@ class SceneGame extends Phaser.Scene {
       if (dieFlag) {
         this.sound.play("die");
         gameMain.scene.stop("jogo");
-        gameMain.scene.start("end");
+        gameMain.scene.start("end",score.toString());
 
         dieFlag = false;
       }
@@ -133,24 +150,34 @@ class SceneGame extends Phaser.Scene {
     }
 
     //Vamos aumentar a dificuldade ao longo do jogo
-    if (this.score == 10) {
-      this.speed = this.speed * 1.4;
-      this.fall = this.fall * 1.11;
+
+    if (score === 10) {
+      this.speed = 5.6;
+      this.fall = 330;
+
+
     }
-    if (this.score == 20) {
-      this.speed = this.speed * 1.4;
-      this.fall = this.fall * 1.11;
+    if (score ===  20) {
+      this.speed = 7.84;
+      this.fall = 363;
+
     }
-    if (this.score == 25) {
-      this.speed = this.speed * 1.4;
-      this.fall = this.fall * 1.11;
+    if (score ===  25) {
+      this.speed = 10.976;
+      this.fall = 399;
     }
-    if (this.score == 30) {
-      this.speed = this.speed * 1.4;
-      this.fall = this.fall * 1.11;
+    if (score ===  30) {
+      this.speed = 15.26;
+      this.fall = 439;
     }
 
+    console.log('Speed: '+this.speed);
+
     let children = this.platforms.getChildren();
+    let nuvensChi = this.nuvens.getChildren();
+
+
+
     //Vai percorrer as plataformas, para ir criado mais
     children.forEach((child) => {
       if (child instanceof Phaser.GameObjects.Sprite) {
@@ -176,6 +203,11 @@ class SceneGame extends Phaser.Scene {
           }
         }
 
+        if (child.x <= gameMainWidth && !child.drawn) {
+          this.count += 1;
+          child.drawn = true;
+        }
+
         //Se o pipe estiver fora do ecra vai remover
         if (child.x <= -50) {
           child.destroy();
@@ -193,6 +225,37 @@ class SceneGame extends Phaser.Scene {
           this.scoreText.setText(score);
           gameMain.sound.play("score");
         }
+      }
+    });
+    nuvensChi.forEach((childNuv) => {
+
+      if (childNuv instanceof Phaser.GameObjects.Sprite) {
+        childNuv.refreshBody();
+        childNuv.x -= this.speed-2.25;
+        this.countNuv=nuvensChi.length;
+
+        console.log('Inicio'+this.countNuv);
+
+        if (this.countNuv <=3  ) {
+          console.log("AQUI 3");
+          this.nuvens.create(gameMainWidth+400,50,'nuvem').setScale(1).refreshBody();
+          this.nuvens.create(gameMainWidth, 85, "nuvem").setScale(1).refreshBody();
+          this.nuvens.create(gameMainWidth+265, 150, "nuvem").setScale(1).refreshBody();
+          this.countNuv = 0;
+
+        }
+
+        //when one set of pipe is just shown
+        if (childNuv.x <= gameMainWidth && !childNuv.drawn) {
+          this.countNuv += 1;
+          childNuv.drawn = true;
+        }
+
+        //Se o pipe estiver fora do ecra vai remover
+        if (childNuv.x <= -50) {
+          childNuv.destroy();
+        }
+
       }
     });
   }
