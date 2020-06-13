@@ -9,7 +9,7 @@ class SceneInicial extends Phaser.Scene {
   }
 
   create() {
-    var colors = ["0x08272e"];
+    var colors = ["3BB6FA"];
     var randColor = colors[Math.floor(Math.random() * colors.length)];
     this.cameras.main.setBackgroundColor(randColor);
 

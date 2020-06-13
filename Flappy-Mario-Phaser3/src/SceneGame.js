@@ -2,6 +2,7 @@ var gameOver = false;
 var hitflag = false;
 var score = 0;
 var dieFlag;
+var back;
 class SceneGame extends Phaser.Scene {
   /**
    *! PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
@@ -22,7 +23,7 @@ class SceneGame extends Phaser.Scene {
     this.gap = 220; //gap onde o player tem de passar
     this.xGap = 550; //gap entre obstaculos
     this.music;
-    this.speed = 10;
+    this.speed = 5;
     this.fall = 300;
     this.countpipe = 0;
     this.countNuv = 0;
@@ -31,7 +32,7 @@ class SceneGame extends Phaser.Scene {
     this.hitflag = false;
   }
   preload() {
-    this.load.image("sky", "assets/fundo.png");
+    this.load.image('jogo', "assets/jogo.png");
     this.load.image("pipeb", "assets/pipeb.png");
     this.load.image("pipet", "assets/pipet.png");
     this.load.image("nuvem", "assets/nuvem.png");
@@ -41,11 +42,13 @@ class SceneGame extends Phaser.Scene {
     });
 
     this.load.audio("flap", "./assets/sounds/jump.wav");
+    this.load.audio("music", "./assets/sounds/FlappyBack.mp3");
     this.load.audio("flapSuper", "./assets/sounds/jump-super.wav");
     this.load.audio("flapSuperReverse", "assets/sounds/jump-super-reverse.wav");
     this.load.audio("hit", "./assets/sounds/sfx_hit.ogg");
     this.load.audio("die", "./assets/sounds/die.wav");
     this.load.audio("score", "./assets/sounds/score.wav");
+
   }
 
   create() {
@@ -56,9 +59,9 @@ class SceneGame extends Phaser.Scene {
     this.speed = 5;
     this.fall = 300;
 
-    var colors = ["0x0a4957"];
-    var randColor = colors[Math.floor(Math.random() * colors.length)];
-    this.cameras.main.setBackgroundColor(randColor);
+    back = this.sound.add('music');
+    back.play();
+    this.add.image(768,361,'jogo');
 
     //Add score text
     this.scoreText = this.add.text(this.birdyX, gameMainHeight / 4, score, {
@@ -126,25 +129,27 @@ class SceneGame extends Phaser.Scene {
     this.input.keyboard.on("keydown-" + "W", this.flapNowBoostUp, this);
     this.input.keyboard.on("keydown-" + "S", this.flapNowBoostDown, this);
     this.input.keyboard.on("keydown-" + "SPACE", this.flapNowMouse, this);
-    this.input.on("pointerdown", this.flapNowMouse, this); //touch support
+
     this.scoreText.setVisible(false);
   }
 
   update() {
+
     if (score > 0) {
       this.scoreText.setVisible(true);
     }
 
     if (gameOver) {
       this.scoreText.x = 850;
-
+      back.stop();
       if (dieFlag) {
-        this.sound.play("die");
 
+        this.sound.play("die");
+         this.player.rotation += -2;
         this.time.addEvent({
           delay: 0,
           callback: () => {
-            this.cameras.main.fade(800);
+            this.cameras.main.fade(2000);
             setTimeout(function () {
               gameMain.scene.stop("jogo");
               gameMain.scene.start("end", score.toString());
@@ -152,7 +157,6 @@ class SceneGame extends Phaser.Scene {
           },
           callbackScope: this,
         });
-
         dieFlag = false;
       }
 
@@ -161,27 +165,21 @@ class SceneGame extends Phaser.Scene {
 
     //Vamos aumentar a dificuldade ao longo do jogo
     if (score === 10) {
-      this.speed = 10;
+      this.speed = 7;
       this.fall = 330;
     }
-    if (score === 15) {
-      this.speed = 8;
-      this.fall = 330;
-    }
+
     if (score === 20) {
       this.speed = 9;
       this.fall = 363;
     }
-    if (score === 25) {
-      this.speed = 10;
-      this.fall = 363;
-    }
+
     if (score === 30) {
-      this.speed = 12;
+      this.speed = 11;
       this.fall = 399;
     }
     if (score === 40) {
-      this.speed = 15;
+      this.speed = 14;
       this.fall = 439;
     }
 
@@ -293,18 +291,18 @@ class SceneGame extends Phaser.Scene {
 
   //Funções quando um input é feito
   flapNowMouse() {
-    if (this.gameOver) return;
+    if (gameOver) return;
     this.player.setVelocityY(-330);
     this.sound.play("flap");
   }
   flapNowBoostUp() {
-    if (this.gameOver) return;
+    if (gameOver) return;
     this.player.setVelocityY(-600);
     this.sound.play("flapSuper");
   }
 
   flapNowBoostDown() {
-    if (this.gameOver) return;
+    if (gameOver) return;
     this.player.setVelocityY(600);
     this.sound.play("flapSuperReverse");
   }

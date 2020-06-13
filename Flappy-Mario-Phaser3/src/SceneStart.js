@@ -4,24 +4,18 @@ class SceneStart extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("sky", "assets/fundo.png");
-    this.load.image("pipeb", "assets/pipeb.png");
-    this.load.image("pipet", "assets/pipet.png");
+
+    this.load.image("fundo", "assets/start.png");
+
     this.load.spritesheet("birdy", "assets/jogador.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
-    this.load.audio("flap", "./assets/sounds/jump.wav");
-    this.load.audio("hit", "./assets/sounds/sfx_hit.ogg");
-    this.load.audio("die", "./assets/sounds/die.wav");
-    this.load.audio("score", "./assets/sounds/score.wav");
   }
 
   create() {
-    var colors = ["0x0a4957"];
-    var randColor = colors[Math.floor(Math.random() * colors.length)];
-    this.cameras.main.setBackgroundColor(randColor);
+    this.add.image(768,361,"fundo");
 
     this.add.text(
       window.innerWidth / 2,
@@ -34,19 +28,56 @@ class SceneStart extends Phaser.Scene {
       }
     );
 
+    this.add.text(
+        130,
+        50,
+        "BOOST UP",
+        {
+          fontFamily: '"04b19',
+          fontSize: "25px",
+          color: "#fff",
+        }
+    );
+
+    this.add.text(
+        130,
+        110,
+        "BOOST DOWN",
+        {
+          fontFamily: '"04b19',
+          fontSize: "25px",
+          color: "#fff",
+        }
+    );
+
+    this.add.text(
+        130,
+        170,
+        "JUMP",
+        {
+          fontFamily: '"04b19',
+          fontSize: "25px",
+          color: "#fff",
+        }
+    );
+
     // Adiciona o texto de pontuaçao
     this.scoreText = "0";
     this.player = this.add.sprite(this.birdyX, this.birdyY, "birdy");
     this.player.x = 740;
     this.player.y = 350;
-
-    this.input.on(
-      "pointerdown",
-      function () {
-        gameMain.scene.start("jogo");
-        gameMain.scene.pause("start");
-      },
-      this
-    ); // Touch support
+    this.input.keyboard.on("keydown-" + "W", function () {
+      gameMain.scene.start("jogo");
+      gameMain.scene.pause("start");
+    }, this);
+    this.input.keyboard.on("keydown-" + "S", function () {
+      gameMain.scene.start("jogo");
+      gameMain.scene.pause("start");
+    }, this);
+    this.input.keyboard.on("keydown-" + "SPACE", function () {
+      gameMain.scene.start("jogo");
+      gameMain.scene.pause("start");
+    }, this);
+    // Touch support
   }
 }

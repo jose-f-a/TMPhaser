@@ -1,5 +1,5 @@
-var gameMainWidth = window.innerWidth;
-var gameMainHeight = window.innerHeight;
+var gameMainWidth = 1536;
+var gameMainHeight = 722;
 
 var config = {
   type: Phaser.AUTO,
