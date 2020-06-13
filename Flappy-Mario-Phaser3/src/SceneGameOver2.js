@@ -1,30 +1,86 @@
 class SceneGameOver2 extends Phaser.Scene {
-  constructor() {
-    super({ key: "end2" });
-  }
+    constructor() {
+        super({ key: "end2" });
+        this.pontos;
+    }
+    init(data) {
+        console.log("init", data);
 
-  preload() {}
+        this.pontos = data;
+    }
+    preload() {
+        this.load.image("final", "assets/gameOver.png");
+        this.load.image("tryAgain", "assets/tryAgain.png");
+        this.load.image("mainMenu", "assets/mainMenu.png");
+    }
 
-  create() {
-    var colors = ["0x0a4957", "0x08272e"];
-    var randColor = colors[Math.floor(Math.random() * colors.length)];
-    this.cameras.main.setBackgroundColor(randColor);
-    const clickButton1 = this.add
-      .text(100, 100, "Voltar a tentar", { fill: "#0f0" })
-      .setInteractive()
-      .on("pointerdown", function () {
-        gameMain.scene.start("start2");
-        gameMain.scene.stop("end2");
-      });
+    create() {
+        var colors = ["0x0a4957", "0x08272e"];
+        var randColor = colors[Math.floor(Math.random() * colors.length)];
+        this.cameras.main.setBackgroundColor(randColor);
+        var scene1 = this;
+        this.add.image(768, 361, "final");
 
-    const clickButton2 = this.add
-      .text(100, 200, "Mudar de nivel", { fill: "#0f0" })
-      .setInteractive()
-      .on("pointerdown", function () {
-        gameMain.scene.start("inicio");
-        gameMain.scene.stop("end2");
-        gameMain.scene.stop("start2");
-      });
-  }
-  update() {}
+        this.add.text(675, 300 / 2, "SCORE: " + this.pontos, {
+            fontFamily: '"04b19',
+            fontSize: "36px",
+            fill: "#FFF",
+        });
+
+        var tryAgain = this.add
+            .sprite(750, 250, "tryAgain")
+            .setInteractive()
+            .on("pointerdown", function () {
+                scene1.time.addEvent({
+                    delay: 0,
+                    callback: () => {
+                        scene1.cameras.main.fade(500);
+                        setTimeout(function () {
+                            gameMain.scene.start("start2");
+                            gameMain.scene.stop("end2");
+
+                        }, 500);
+                    },
+                    callbackScope: scene1,
+                });
+
+            });
+        tryAgain.alpha = 0.65;
+        tryAgain.on("pointerover", function () {
+            tryAgain.alpha = 1;
+        });
+        tryAgain.on("pointerout", function () {
+            tryAgain.alpha = 0.65;
+        });
+
+        var mainMenu = this.add
+            .sprite(750, 400, "mainMenu")
+            .setInteractive()
+            .on("pointerdown", function () {
+                scene1.time.addEvent({
+                    delay: 0,
+                    callback: () => {
+                        scene1.cameras.main.fade(500);
+                        setTimeout(function () {
+                            gameMain.scene.start("inicio");
+                            gameMain.scene.stop("end2");
+                            gameMain.scene.stop("start2");
+
+                        }, 500);
+                    },
+                    callbackScope: scene1,
+                });
+
+            });
+
+        mainMenu.alpha = 0.65;
+        mainMenu.on("pointerover", function () {
+            mainMenu.alpha = 1;
+        });
+        mainMenu.on("pointerout", function () {
+            mainMenu.alpha = 0.65;
+        });
+    }
+
+    update() {}
 }

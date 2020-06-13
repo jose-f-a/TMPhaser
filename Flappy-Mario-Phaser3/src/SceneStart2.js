@@ -4,6 +4,8 @@ class SceneStart2 extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image("fundo", "assets/start.png");
+
     this.load.spritesheet("vi", "assets/vi.png", {
       frameWidth: 48,
       frameHeight: 48,
@@ -11,26 +13,61 @@ class SceneStart2 extends Phaser.Scene {
   }
 
   create() {
-    var colors = ["0x0a4957", "0x08272e"];
-    var randColor = colors[Math.floor(Math.random() * colors.length)];
-    this.cameras.main.setBackgroundColor(randColor);
-    this.add.text(16, 16, "Press too play", { fontSize: "32px", fill: "#000" });
-    // Botao para começar
-    //var btnPlay = game.add.button(game.world.centerX, 200, "buttons", this.clickMe, this, 0, 1, 0);
+    this.add.image(768, 361, "fundo");
+
+    this.add.text(600, window.innerHeight / 5, "PRESS JUMP TO PLAY", {
+      fontFamily: '"04b19',
+      fontSize: "32px",
+      color: "#fff",
+    });
+
+    this.add.text(130, 50, "BOOST UP", {
+      fontFamily: '"04b19',
+      fontSize: "25px",
+      color: "#fff",
+    });
+
+    this.add.text(130, 110, "BOOST DOWN", {
+      fontFamily: '"04b19',
+      fontSize: "25px",
+      color: "#fff",
+    });
+
+    this.add.text(130, 170, "JUMP", {
+      fontFamily: '"04b19',
+      fontSize: "25px",
+      color: "#fff",
+    });
 
     // Adiciona o texto de pontuaçao
     this.scoreText = "0";
     this.player = this.add.sprite(this.birdyX, this.birdyY, "vi");
     this.player.x = 740;
     this.player.y = 350;
-
-    this.input.on(
-      "pointerdown",
-      function () {
-        gameMain.scene.start("jogo2");
-        gameMain.scene.pause("start2");
-      },
-      this
-    ); // Touch support
+    this.input.keyboard.on(
+        "keydown-" + "W",
+        function () {
+          gameMain.scene.start("jogo2");
+          gameMain.scene.pause("start2");
+        },
+        this
+    );
+    this.input.keyboard.on(
+        "keydown-" + "S",
+        function () {
+          gameMain.scene.start("jogo2");
+          gameMain.scene.pause("start2");
+        },
+        this
+    );
+    this.input.keyboard.on(
+        "keydown-" + "SPACE",
+        function () {
+          gameMain.scene.start("jogo2");
+          gameMain.scene.pause("start2");
+        },
+        this
+    );
+    // Touch support
   }
 }

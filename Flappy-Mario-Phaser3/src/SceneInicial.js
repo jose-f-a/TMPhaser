@@ -4,6 +4,8 @@ class SceneInicial extends Phaser.Scene {
   }
 
   preload() {
+    this.load.audio("fundoMario", "./assets/sounds/FlappyBack.ogg");
+    this.load.audio("fundoVi", "./assets/sounds/FlappyBack2.ogg");
     this.load.image("inicial", "assets/inicial.png");
     this.load.image("startMario", "assets/flappyMario.png");
     this.load.image("startPedgrey", "assets/pedgreyVieimir.png");
@@ -15,35 +17,59 @@ class SceneInicial extends Phaser.Scene {
     this.cameras.main.setBackgroundColor(randColor);
 
     this.add.image(768, 361, "inicial");
+    var scene1 = this;
 
     var mario = this.add
       .sprite(675, 335, "startMario")
       .setInteractive()
       .on("pointerdown", function () {
-        gameMain.scene.start("start");
-        gameMain.scene.stop("inicio");
+         scene1.time.addEvent({
+          delay: 0,
+          callback: () => {
+            scene1.cameras.main.fade(500);
+            setTimeout(function () {
+              gameMain.scene.start("start");
+              gameMain.scene.stop("inicio");
+            }, 500);
+          },
+          callbackScope: scene1,
+        });
       });
-    mario.alpha = 0.85;
+
+    var vieira = this.add
+        .sprite(675, 450, "startPedgrey")
+        .setInteractive()
+        .on("pointerdown", function () {
+          scene1.time.addEvent({
+            delay: 0,
+            callback: () => {
+              scene1.cameras.main.fade(500);
+              setTimeout(function () {
+                gameMain.scene.start("start2");
+                gameMain.scene.stop("inicio");
+              }, 500);
+            },
+            callbackScope: scene1,
+          });
+
+        });
+
+    mario.alpha = 0.65;
+    vieira.alpha = 0.65;
     mario.on("pointerover", function () {
       mario.alpha = 1;
     });
     mario.on("pointerout", function () {
-      mario.alpha = 0.85;
+      mario.alpha = 0.65;
     });
 
-    var vieira = this.add
-      .sprite(675, 450, "startPedgrey")
-      .setInteractive()
-      .on("pointerdown", function () {
-        gameMain.scene.start("start2");
-        gameMain.scene.stop("inicio");
-      });
-    vieira.alpha = 0.85;
+
+
     vieira.on("pointerover", function () {
       vieira.alpha = 1;
     });
     vieira.on("pointerout", function () {
-      vieira.alpha = 0.85;
+      vieira.alpha = 0.65;
     });
   }
 }

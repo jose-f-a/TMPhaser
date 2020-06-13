@@ -6,7 +6,7 @@ class SceneStart extends Phaser.Scene {
   preload() {
     this.load.image("fundo", "assets/start.png");
 
-    this.load.spritesheet("birdy", "assets/jogador.png", {
+    this.load.spritesheet("mario", "assets/jogador.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
@@ -41,7 +41,7 @@ class SceneStart extends Phaser.Scene {
 
     // Adiciona o texto de pontuaçao
     this.scoreText = "0";
-    this.player = this.add.sprite(this.birdyX, this.birdyY, "birdy");
+    this.player = this.add.sprite(this.birdyX, this.birdyY, "mario");
     this.player.x = 740;
     this.player.y = 350;
     this.input.keyboard.on(

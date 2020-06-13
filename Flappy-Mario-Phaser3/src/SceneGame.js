@@ -4,9 +4,6 @@ var score = 0;
 var dieFlag;
 var back;
 class SceneGame extends Phaser.Scene {
-  /**
-   *! PROBLEMA, NAO SEI PORQUE MAS NAO CONSIGO ALTERAR O VALOR DO GAME OVER
-   */
 
   constructor() {
     super({ key: "jogo" });
@@ -36,18 +33,18 @@ class SceneGame extends Phaser.Scene {
     this.load.image("pipeb", "assets/pipeb.png");
     this.load.image("pipet", "assets/pipet.png");
     this.load.image("nuvem", "assets/nuvem.png");
-    this.load.spritesheet("birdy", "assets/jogador.png", {
+    this.load.spritesheet("mario", "assets/jogador.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
 
-    this.load.audio("flap", "./assets/sounds/jump.wav");
-    this.load.audio("music", "./assets/sounds/FlappyBack.ogg");
-    this.load.audio("flapSuper", "./assets/sounds/jump-super.wav");
-    this.load.audio("flapSuperReverse", "assets/sounds/jump-super-reverse.wav");
+    this.load.audio("flap", "./assets/sounds/jump.ogg");
+
+    this.load.audio("flapSuper", "./assets/sounds/jump-super.ogg");
+    this.load.audio("flapSuperReverse", "assets/sounds/jump-super-reverse.ogg");
     this.load.audio("hit", "./assets/sounds/sfx_hit.ogg");
     this.load.audio("die", "./assets/sounds/die.wav");
-    this.load.audio("score", "./assets/sounds/score.wav");
+    this.load.audio("score", "./assets/sounds/score.ogg");
   }
 
   create() {
@@ -58,7 +55,7 @@ class SceneGame extends Phaser.Scene {
     this.speed = 5;
     this.fall = 300;
 
-    back = this.sound.add("music");
+    back = this.sound.add("fundoMario");
     back.play();
     this.add.image(768, 361, "jogo");
 
@@ -86,7 +83,7 @@ class SceneGame extends Phaser.Scene {
       .setScale(1)
       .refreshBody();
 
-    this.player = this.physics.add.sprite(this.birdyX, this.birdyY, "birdy");
+    this.player = this.physics.add.sprite(this.birdyX, this.birdyY, "mario");
 
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
@@ -102,7 +99,7 @@ class SceneGame extends Phaser.Scene {
 
     gameMain.anims.create({
       key: "flap",
-      frames: gameMain.anims.generateFrameNumbers("birdy", {
+      frames: gameMain.anims.generateFrameNumbers("mario", {
         start: 0,
         end: 3,
       }),
@@ -129,13 +126,11 @@ class SceneGame extends Phaser.Scene {
     this.input.keyboard.on("keydown-" + "S", this.flapNowBoostDown, this);
     this.input.keyboard.on("keydown-" + "SPACE", this.flapNowMouse, this);
 
-    this.scoreText.setVisible(false);
+
   }
 
   update() {
-    if (score > 0) {
-      this.scoreText.setVisible(true);
-    }
+
 
     if (gameOver) {
       this.scoreText.x = 850;
@@ -164,20 +159,24 @@ class SceneGame extends Phaser.Scene {
     if (score === 10) {
       this.speed = 7;
       this.fall = 330;
+      back.setRate(1.025); //Vai aumetar a velocidade do som de fundo
     }
 
     if (score === 20) {
       this.speed = 9;
       this.fall = 363;
+      back.setRate(1.05);
     }
 
     if (score === 30) {
       this.speed = 11;
       this.fall = 399;
+      back.setRate(1.075);
     }
     if (score === 40) {
       this.speed = 14;
       this.fall = 439;
+      back.setRate(1.1);
     }
 
     console.log("Speed: " + this.speed);
@@ -241,33 +240,7 @@ class SceneGame extends Phaser.Scene {
         childNuv.x -= this.speed - 2.25;
         this.countNuv = nuvensChi.length;
 
-        console.log("Inicio" + this.countNuv);
 
-        /*
-        if (this.countNuv <= 3) {
-          console.log("AQUI 3");
-          this.nuvens
-            .create(gameMainWidth + 400, 50, "nuvem")
-            .setScale(1)
-            .refreshBody();
-          this.nuvens
-            .create(gameMainWidth, 85, "nuvem")
-            .setScale(1)
-            .refreshBody();
-          this.nuvens
-            .create(gameMainWidth + 265, 150, "nuvem")
-            .setScale(1)
-            .refreshBody();
-          this.countNuv = 0;
-        }
-
-        if (childNuv.x <= gameMainWidth && !childNuv.drawn) {
-          this.countNuv += 1;
-          childNuv.drawn = true;
-        }
-        */
-
-        //Se o nuvem estiver fora do ecra vai remover
         if (childNuv.x <= -50) {
           childNuv.x = gameMainWidth;
         }
