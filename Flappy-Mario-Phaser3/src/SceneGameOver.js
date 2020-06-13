@@ -8,40 +8,55 @@ class SceneGameOver extends Phaser.Scene {
 
     this.pontos = data;
   }
-  preload() {}
+  preload() {
+    this.load.image("final", "assets/gameOver.png");
+    this.load.image("tryAgain", "assets/tryAgain.png");
+    this.load.image("mainMenu", "assets/mainMenu.png");
+  }
 
   create() {
     var colors = ["0x0a4957", "0x08272e"];
     var randColor = colors[Math.floor(Math.random() * colors.length)];
     this.cameras.main.setBackgroundColor(randColor);
 
-    this.add.text(
-      window.innerWidth / 2,
-      window.innerHeight / 5,
-      "SCORE: " + this.pontos,
-      {
-        fontFamily: '"04b19',
-        fontSize: "36px",
-        fill: "#FFF",
-      }
-    );
+    this.add.image(768, 361, "final");
 
-    const clickButton1 = this.add
-      .text(100, 100, "Voltar a tentar", { fill: "#0f0" })
+    this.add.text(675, window.innerHeight / 2, "SCORE: " + this.pontos, {
+      fontFamily: '"04b19',
+      fontSize: "36px",
+      fill: "#FFF",
+    });
+
+    var tryAgain = this.add
+      .sprite(750, 250, "tryAgain")
       .setInteractive()
       .on("pointerdown", function () {
         gameMain.scene.start("start");
         gameMain.scene.stop("end");
       });
+    tryAgain.alpha = 0.85;
+    tryAgain.on("pointerover", function () {
+      tryAgain.alpha = 1;
+    });
+    tryAgain.on("pointerout", function () {
+      tryAgain.alpha = 0.85;
+    });
 
-    const clickButton2 = this.add
-      .text(100, 200, "Mudar de nivel", { fill: "#0f0" })
+    var mainMenu = this.add
+      .sprite(750, 400, "mainMenu")
       .setInteractive()
       .on("pointerdown", function () {
         gameMain.scene.start("inicio");
         gameMain.scene.stop("end");
-        gameMain.scene.stop("start");
       });
+    mainMenu.alpha = 0.85;
+    mainMenu.on("pointerover", function () {
+      mainMenu.alpha = 1;
+    });
+    mainMenu.on("pointerout", function () {
+      mainMenu.alpha = 0.85;
+    });
   }
+
   update() {}
 }

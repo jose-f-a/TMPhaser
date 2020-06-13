@@ -32,7 +32,7 @@ class SceneGame extends Phaser.Scene {
     this.hitflag = false;
   }
   preload() {
-    this.load.image('jogo', "assets/jogo.png");
+    this.load.image("jogo", "assets/jogo.png");
     this.load.image("pipeb", "assets/pipeb.png");
     this.load.image("pipet", "assets/pipet.png");
     this.load.image("nuvem", "assets/nuvem.png");
@@ -42,13 +42,12 @@ class SceneGame extends Phaser.Scene {
     });
 
     this.load.audio("flap", "./assets/sounds/jump.wav");
-    this.load.audio("music", "./assets/sounds/FlappyBack.mp3");
+    this.load.audio("music", "./assets/sounds/FlappyBack.ogg");
     this.load.audio("flapSuper", "./assets/sounds/jump-super.wav");
     this.load.audio("flapSuperReverse", "assets/sounds/jump-super-reverse.wav");
     this.load.audio("hit", "./assets/sounds/sfx_hit.ogg");
     this.load.audio("die", "./assets/sounds/die.wav");
     this.load.audio("score", "./assets/sounds/score.wav");
-
   }
 
   create() {
@@ -59,9 +58,9 @@ class SceneGame extends Phaser.Scene {
     this.speed = 5;
     this.fall = 300;
 
-    back = this.sound.add('music');
+    back = this.sound.add("music");
     back.play();
-    this.add.image(768,361,'jogo');
+    this.add.image(768, 361, "jogo");
 
     //Add score text
     this.scoreText = this.add.text(this.birdyX, gameMainHeight / 4, score, {
@@ -134,7 +133,6 @@ class SceneGame extends Phaser.Scene {
   }
 
   update() {
-
     if (score > 0) {
       this.scoreText.setVisible(true);
     }
@@ -143,9 +141,8 @@ class SceneGame extends Phaser.Scene {
       this.scoreText.x = 850;
       back.stop();
       if (dieFlag) {
-
         this.sound.play("die");
-         this.player.rotation += -2;
+        this.player.rotation += -2;
         this.time.addEvent({
           delay: 0,
           callback: () => {
