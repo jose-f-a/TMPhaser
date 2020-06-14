@@ -4,6 +4,7 @@ class SceneStart2 extends Phaser.Scene {
   }
 
   preload() {
+    //  Carrega o fundo e o jogador
     this.load.image("fundo", "assets/start.png");
 
     this.load.spritesheet("vi", "assets/vi.png", {
@@ -13,8 +14,10 @@ class SceneStart2 extends Phaser.Scene {
   }
 
   create() {
+    //  Cria o fundo
     this.add.image(768, 361, "fundo");
 
+    //  Adiciona os textos de informação de como jogar
     this.add.text(600, window.innerHeight / 5, "PRESS JUMP TO PLAY", {
       fontFamily: '"04b19',
       fontSize: "32px",
@@ -39,35 +42,34 @@ class SceneStart2 extends Phaser.Scene {
       color: "#fff",
     });
 
-    // Adiciona o texto de pontuaçao
+    //  Adiciona o texto de pontuaçao
     this.scoreText = "0";
     this.player = this.add.sprite(this.birdyX, this.birdyY, "vi");
     this.player.x = 740;
     this.player.y = 350;
     this.input.keyboard.on(
-        "keydown-" + "W",
-        function () {
-          gameMain.scene.start("jogo2");
-          gameMain.scene.pause("start2");
-        },
-        this
+      "keydown-" + "W",
+      function () {
+        gameMain.scene.start("jogo2");
+        gameMain.scene.pause("start2");
+      },
+      this
     );
     this.input.keyboard.on(
-        "keydown-" + "S",
-        function () {
-          gameMain.scene.start("jogo2");
-          gameMain.scene.pause("start2");
-        },
-        this
+      "keydown-" + "S",
+      function () {
+        gameMain.scene.start("jogo2");
+        gameMain.scene.pause("start2");
+      },
+      this
     );
     this.input.keyboard.on(
-        "keydown-" + "SPACE",
-        function () {
-          gameMain.scene.start("jogo2");
-          gameMain.scene.pause("start2");
-        },
-        this
+      "keydown-" + "SPACE",
+      function () {
+        gameMain.scene.start("jogo2");
+        gameMain.scene.pause("start2");
+      },
+      this
     );
-    // Touch support
   }
 }

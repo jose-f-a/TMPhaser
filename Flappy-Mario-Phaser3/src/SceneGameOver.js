@@ -3,11 +3,12 @@ class SceneGameOver extends Phaser.Scene {
     super({ key: "end" });
     this.pontos;
   }
+
   init(data) {
     console.log("init", data);
-
     this.pontos = data;
   }
+
   preload() {
     this.load.image("final", "assets/gameOver.png");
     this.load.image("tryAgain", "assets/tryAgain.png");
@@ -15,10 +16,13 @@ class SceneGameOver extends Phaser.Scene {
   }
 
   create() {
+    //  Cor caso a imagem não carregue
     var colors = ["0x0a4957", "0x08272e"];
     var randColor = colors[Math.floor(Math.random() * colors.length)];
     this.cameras.main.setBackgroundColor(randColor);
+
     var scene1 = this;
+
     this.add.image(768, 361, "final");
 
     this.add.text(675, 300 / 2, "SCORE: " + this.pontos, {
@@ -27,6 +31,7 @@ class SceneGameOver extends Phaser.Scene {
       fill: "#FFF",
     });
 
+    //  Botao Try again
     var tryAgain = this.add
       .sprite(750, 250, "tryAgain")
       .setInteractive()
@@ -38,12 +43,10 @@ class SceneGameOver extends Phaser.Scene {
             setTimeout(function () {
               gameMain.scene.start("start");
               gameMain.scene.stop("end");
-
             }, 500);
           },
           callbackScope: scene1,
         });
-
       });
     tryAgain.alpha = 0.65;
     tryAgain.on("pointerover", function () {
@@ -53,11 +56,11 @@ class SceneGameOver extends Phaser.Scene {
       tryAgain.alpha = 0.65;
     });
 
+    //  Botao Main menu
     var mainMenu = this.add
       .sprite(750, 400, "mainMenu")
       .setInteractive()
       .on("pointerdown", function () {
-
         scene1.time.addEvent({
           delay: 0,
           callback: () => {
@@ -70,9 +73,9 @@ class SceneGameOver extends Phaser.Scene {
           },
           callbackScope: scene1,
         });
-
       });
 
+    //  Opacidade dos botoes
     mainMenu.alpha = 0.65;
     mainMenu.on("pointerover", function () {
       mainMenu.alpha = 1;

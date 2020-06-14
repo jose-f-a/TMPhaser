@@ -4,6 +4,7 @@ class SceneStart extends Phaser.Scene {
   }
 
   preload() {
+    //  Carrega o fundo e o jogador
     this.load.image("fundo", "assets/start.png");
 
     this.load.spritesheet("mario", "assets/jogador.png", {
@@ -13,8 +14,10 @@ class SceneStart extends Phaser.Scene {
   }
 
   create() {
+    //  Cria o fundo
     this.add.image(768, 361, "fundo");
 
+    //  Adiciona os textos de informação de como jogar
     this.add.text(600, window.innerHeight / 5, "PRESS JUMP TO PLAY", {
       fontFamily: '"04b19',
       fontSize: "32px",
@@ -39,11 +42,15 @@ class SceneStart extends Phaser.Scene {
       color: "#fff",
     });
 
-    // Adiciona o texto de pontuaçao
+    //  Adiciona o texto de pontuaçao
     this.scoreText = "0";
+
+    //  Adiciona a imagem do jogador e a posição
     this.player = this.add.sprite(this.birdyX, this.birdyY, "mario");
     this.player.x = 740;
     this.player.y = 350;
+
+    //  Input para começar o jogo
     this.input.keyboard.on(
       "keydown-" + "W",
       function () {
@@ -68,6 +75,5 @@ class SceneStart extends Phaser.Scene {
       },
       this
     );
-    // Touch support
   }
 }

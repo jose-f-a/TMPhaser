@@ -12,6 +12,7 @@ class SceneInicial extends Phaser.Scene {
   }
 
   create() {
+    //  Cor de fundo caso não carrega a imagem
     var colors = ["3BB6FA"];
     var randColor = colors[Math.floor(Math.random() * colors.length)];
     this.cameras.main.setBackgroundColor(randColor);
@@ -19,11 +20,12 @@ class SceneInicial extends Phaser.Scene {
     this.add.image(768, 361, "inicial");
     var scene1 = this;
 
+    //  Botao para o jogo do Mario
     var mario = this.add
       .sprite(675, 335, "startMario")
       .setInteractive()
       .on("pointerdown", function () {
-         scene1.time.addEvent({
+        scene1.time.addEvent({
           delay: 0,
           callback: () => {
             scene1.cameras.main.fade(500);
@@ -36,24 +38,25 @@ class SceneInicial extends Phaser.Scene {
         });
       });
 
+    //  Botao para o jogo do Vieira
     var vieira = this.add
-        .sprite(675, 450, "startPedgrey")
-        .setInteractive()
-        .on("pointerdown", function () {
-          scene1.time.addEvent({
-            delay: 0,
-            callback: () => {
-              scene1.cameras.main.fade(500);
-              setTimeout(function () {
-                gameMain.scene.start("start2");
-                gameMain.scene.stop("inicio");
-              }, 500);
-            },
-            callbackScope: scene1,
-          });
-
+      .sprite(675, 450, "startPedgrey")
+      .setInteractive()
+      .on("pointerdown", function () {
+        scene1.time.addEvent({
+          delay: 0,
+          callback: () => {
+            scene1.cameras.main.fade(500);
+            setTimeout(function () {
+              gameMain.scene.start("start2");
+              gameMain.scene.stop("inicio");
+            }, 500);
+          },
+          callbackScope: scene1,
         });
+      });
 
+    //  Opacidade dos botoes
     mario.alpha = 0.65;
     vieira.alpha = 0.65;
     mario.on("pointerover", function () {
@@ -62,8 +65,6 @@ class SceneInicial extends Phaser.Scene {
     mario.on("pointerout", function () {
       mario.alpha = 0.65;
     });
-
-
 
     vieira.on("pointerover", function () {
       vieira.alpha = 1;

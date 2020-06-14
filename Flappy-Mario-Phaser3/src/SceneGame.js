@@ -4,7 +4,6 @@ var score = 0;
 var dieFlag;
 var back;
 class SceneGame extends Phaser.Scene {
-
   constructor() {
     super({ key: "jogo" });
 
@@ -17,18 +16,20 @@ class SceneGame extends Phaser.Scene {
     this.spacebar;
     this.player;
     this.scoreText;
-    this.gap = 220; //gap onde o player tem de passar
-    this.xGap = 550; //gap entre obstaculos
+    this.gap = 220; //  Gap onde o player tem de passar
+    this.xGap = 550; //  Gap entre obstaculos
     this.music;
     this.speed = 5;
     this.fall = 300;
     this.countpipe = 0;
     this.countNuv = 0;
 
-    //hit flag serve para depois de dar hit a primeira vez nao dar mais nenhuma
+    //  hitflag serve para depois de dar hit a primeira vez nao dar mais nenhuma
     this.hitflag = false;
   }
+
   preload() {
+    //  Load de imagens
     this.load.image("jogo", "assets/jogo.png");
     this.load.image("pipeb", "assets/pipeb.png");
     this.load.image("pipet", "assets/pipet.png");
@@ -38,8 +39,8 @@ class SceneGame extends Phaser.Scene {
       frameHeight: 48,
     });
 
+    //  Load dos audios
     this.load.audio("flap", "./assets/sounds/jump.ogg");
-
     this.load.audio("flapSuper", "./assets/sounds/jump-super.ogg");
     this.load.audio("flapSuperReverse", "assets/sounds/jump-super-reverse.ogg");
     this.load.audio("hit", "./assets/sounds/sfx_hit.ogg");
@@ -59,20 +60,22 @@ class SceneGame extends Phaser.Scene {
     back.play();
     this.add.image(768, 361, "jogo");
 
-    //Add score text
+    //  Adiciona o texto da pontuacao
     this.scoreText = this.add.text(this.birdyX, gameMainHeight / 4, score, {
       fontFamily: '"04b19"',
       fontSize: 60,
       color: "#fff",
     });
 
+    //  Grupo das nuvens e dos obstaculos
     this.nuvens = this.physics.add.staticGroup();
     this.platforms = this.physics.add.staticGroup();
 
     var pipePos = gameMainWidth + 1.2 * this.xGap;
-    // Cria as platforms de forma random, em tempos de altura
+    //  Cria as platforms de forma random, em tempos de altura
     let pos = this.getRandom();
 
+    //   Criacao das nuvens
     this.nuvens
       .create(gameMainWidth + 400, 50, "nuvem")
       .setScale(1)
@@ -83,11 +86,12 @@ class SceneGame extends Phaser.Scene {
       .setScale(1)
       .refreshBody();
 
+    //  Fisicas do jogador
     this.player = this.physics.add.sprite(this.birdyX, this.birdyY, "mario");
-
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
 
+    //  Criacao dos obstaculos
     this.platforms
       .create(gameMainWidth, pos[0], "pipeb")
       .setScale(1)
@@ -97,6 +101,7 @@ class SceneGame extends Phaser.Scene {
       .setScale(1)
       .refreshBody();
 
+    //  Animaçoes do salto
     gameMain.anims.create({
       key: "flap",
       frames: gameMain.anims.generateFrameNumbers("mario", {
@@ -109,7 +114,7 @@ class SceneGame extends Phaser.Scene {
 
     this.player.body.setGravityY(this.fall);
 
-    //Sempre que "toca" nas plataformas executa o playerHit
+    //  Sempre que "toca" nas plataformas executa o playerHit
     this.physics.add.collider(
       this.player,
       this.platforms,
@@ -118,26 +123,28 @@ class SceneGame extends Phaser.Scene {
       gameMain
     );
 
+    //  Definicao do Spacebar
     this.spacebar = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
 
+    //  Definicao dos controlos
     this.input.keyboard.on("keydown-" + "W", this.flapNowBoostUp, this);
     this.input.keyboard.on("keydown-" + "S", this.flapNowBoostDown, this);
     this.input.keyboard.on("keydown-" + "SPACE", this.flapNowMouse, this);
-
-
   }
 
   update() {
-
-
     if (gameOver) {
-      this.scoreText.x = 850;
+      //  Para a musica
       back.stop();
+
+      //  Executado qd o jogador colide com um obstaculo
       if (dieFlag) {
-        this.sound.play("die");
-        this.player.rotation += -2;
+        this.sound.play("die"); //  Som die
+        this.player.rotation += -2; //  Jogador roda
+
+        //  Fade da camera
         this.time.addEvent({
           delay: 0,
           callback: () => {
@@ -151,32 +158,31 @@ class SceneGame extends Phaser.Scene {
         });
         dieFlag = false;
       }
-
       return;
     }
 
-    //Vamos aumentar a dificuldade ao longo do jogo
+    //  Vamos aumentar a dificuldade ao longo do jogo
     if (score === 10) {
       this.speed = 7;
       this.fall = 330;
-      back.setRate(1.025); //Vai aumetar a velocidade do som de fundo
+      back.setRate(1.025); //  Vai aumetar a velocidade do som de fundo
     }
 
     if (score === 20) {
       this.speed = 9;
       this.fall = 363;
-      back.setRate(1.05);
+      back.setRate(1.05); //  Vai aumetar a velocidade do som de fundo
     }
 
     if (score === 30) {
       this.speed = 11;
       this.fall = 399;
-      back.setRate(1.075);
+      back.setRate(1.075); //  Vai aumetar a velocidade do som de fundo
     }
     if (score === 40) {
       this.speed = 14;
       this.fall = 439;
-      back.setRate(1.1);
+      back.setRate(1.1); //  Vai aumetar a velocidade do som de fundo
     }
 
     console.log("Speed: " + this.speed);
@@ -184,13 +190,13 @@ class SceneGame extends Phaser.Scene {
     let children = this.platforms.getChildren();
     let nuvensChi = this.nuvens.getChildren();
 
-    //Vai percorrer as plataformas, para ir criado mais
+    //  Vai percorrer as plataformas, para ir criado mais
     children.forEach((child) => {
       if (child instanceof Phaser.GameObjects.Sprite) {
         child.refreshBody();
         child.x -= this.speed;
 
-        //when one set of pipe is just shown
+        //  Conjunto de tubos é mostrado
         if (child.x <= gameMainWidth && !child.drawn) {
           this.countpipe += 1;
           child.drawn = true;
@@ -214,12 +220,12 @@ class SceneGame extends Phaser.Scene {
           child.drawn = true;
         }
 
-        //Se o pipe estiver fora do ecra vai remover
+        //  Se o pipe estiver fora do ecra vai remover
         if (child.x <= -50) {
           child.destroy();
         }
 
-        //Verifica se o player passou pelo obstaculo
+        //  Verifica se o player passou pelo obstaculo
         if (
           child.x < this.birdyX &&
           !this.gameOver &&
@@ -240,7 +246,7 @@ class SceneGame extends Phaser.Scene {
         childNuv.x -= this.speed - 2.25;
         this.countNuv = nuvensChi.length;
 
-
+        //  Se a nuvem estiver fora do ecra vai remover
         if (childNuv.x <= -50) {
           childNuv.x = gameMainWidth;
         }
@@ -253,13 +259,13 @@ class SceneGame extends Phaser.Scene {
     let min = Math.ceil(safePadding + this.gap / 2);
     let max = Math.floor(gameMain.canvas.height - safePadding - this.gap / 2);
     let ran = Math.floor(Math.random() * (max - min + 1)) + min;
-    let rantop = ran - (this.gap / 2 + 260); //Tubo de cima
-    let ranbot = ran + (this.gap / 2 + 260); //Tubo de baixo
+    let rantop = ran - (this.gap / 2 + 260); //  Tubo de cima
+    let ranbot = ran + (this.gap / 2 + 260); //  Tubo de baixo
 
     return [ranbot, rantop];
   }
 
-  //Funções quando um input é feito
+  //  Funções quando um input é feito
   flapNowMouse() {
     if (gameOver) return;
     this.player.setVelocityY(-330);
@@ -270,13 +276,11 @@ class SceneGame extends Phaser.Scene {
     this.player.setVelocityY(-600);
     this.sound.play("flapSuper");
   }
-
   flapNowBoostDown() {
     if (gameOver) return;
     this.player.setVelocityY(600);
     this.sound.play("flapSuperReverse");
   }
-
   playerHit() {
     if (hitflag) return;
     this.sound.play("hit");
